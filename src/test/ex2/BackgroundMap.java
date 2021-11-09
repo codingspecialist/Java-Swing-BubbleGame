@@ -1,4 +1,4 @@
-package test;
+package test.ex2;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,19 +11,17 @@ import javax.swing.JLabel;
  *
  */
 
-public class BgMapTest extends JFrame{
+public class BackgroundMap extends JFrame{
 	
-	private JLabel bgMap;
+	protected JLabel bgMap;
 	
-	public BgMapTest() {		
+	public BackgroundMap() {		
 		initObject();
 		initSetting();
-		
-		setVisible(true);
 	}
 	
 	private void initObject() {
-		bgMap = new JLabel(new ImageIcon("image/bgMap.png"));
+		bgMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
 	}
 	
 	private void initSetting() {
@@ -32,10 +30,6 @@ public class BgMapTest extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setContentPane(bgMap);
-	}
-	
-	public static void main(String[] args) {
-		new BgMapTest();
 	}
 }
 
