@@ -59,11 +59,11 @@ class Player extends JLabel{
 	}
 }
 
-public class PlayerMoveTest extends BackgroundMap{
+public class PlayerAddTest extends BackgroundMap{
 
 	private Player player;
 	
-	public PlayerMoveTest() {
+	public PlayerAddTest() {
 		initObject();
 		initSetting();
 		
@@ -78,7 +78,7 @@ public class PlayerMoveTest extends BackgroundMap{
 	}
 	
 	public static void main(String[] args) {
-		new PlayerMoveTest();
+		new PlayerAddTest();
 	}
 }
 
