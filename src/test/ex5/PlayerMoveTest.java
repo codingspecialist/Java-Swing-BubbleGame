@@ -1,4 +1,4 @@
-package test.ex4;
+package test.ex5;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 /**
  * 
  * @author 겟인데어 
- * 플레이어 좌우이동 성능 최적화 (while thread사용)
+ * 플레이어 점프(위아래) 이동 테스트
  */
 
 interface Moveable {
@@ -47,6 +47,7 @@ class Player extends JLabel implements Moveable {
 
 	// 기본 속도 상수로 처리 (변경안됨)
 	private final int SPEED = 3;
+	private final int JUMPSPEED = 1;
 
 	private ImageIcon playerR;
 	private ImageIcon playerL;
@@ -79,12 +80,49 @@ class Player extends JLabel implements Moveable {
 
 	@Override
 	public void up() {
-
+		// 버그 : 다운 혹은 점프 중에 점프막기 (up==false && down==false) 조건 주기
+		if(up == false && down == false) {
+			up = true;
+			new Thread(() -> {
+				
+				// 점프 거리를 120정도 잡자
+				for (int i = 0; i < 120; i++) {
+					y = y - (JUMPSPEED); // 왼쪽상단 좌표가 0,0 이다. 위로 이동은 y값이 -가 되어야 한다.
+					setLocation(x, y);
+					try {
+						Thread.sleep(5);
+					} catch (Exception e) {
+						System.out.println("위쪽 이동중 인터럽트 발생 : " + e.getMessage());
+					}
+				} // end of for
+					// 점프가 끝났을 때 자동으로 아래로 내려와야 한다.
+				up = false;
+				down();
+			}).start();
+		}
 	}
 
 	@Override
 	public void down() {
-
+		if (down == false) {
+			down = true;
+			new Thread(() -> {
+				if (down) { // 점프 후 다운은 현 위치에 따라서 어디까지 내려가야 할지 알 수 없다.
+					
+					// 우선은 점프한 만큼만 내려가게 테스트하기
+					for (int i = 0; i < 120; i++) {
+						y = y + (JUMPSPEED);
+						setLocation(x, y);
+						try {
+							Thread.sleep(5);
+						} catch (Exception e) {
+							System.out.println("아래쪽 이동중 인터럽트 발생 : " + e.getMessage());
+						}
+					}
+					down = false;
+				}
+			}).start();
+		}
 	}
 
 	@Override
@@ -102,7 +140,7 @@ class Player extends JLabel implements Moveable {
 					try {
 						Thread.sleep(10);
 					} catch (Exception e) {
-						System.out.println("오른쪽 이동중 인터럽트 발생 : " + e.getMessage());
+						System.out.println("왼쪽 이동중 인터럽트 발생 : " + e.getMessage());
 					}
 				}
 			}).start();
@@ -124,7 +162,7 @@ class Player extends JLabel implements Moveable {
 				// 새로운 스레드를 적용해줘야 한다.
 				while (right) {
 
-					System.out.println("right 반복됨 : x :" + x);
+					//System.out.println("right 반복됨 : x :" + x);
 					x = x + SPEED;
 
 					setLocation(x, y);
@@ -141,7 +179,7 @@ class Player extends JLabel implements Moveable {
 
 		}
 	}
-	
+
 }
 
 public class PlayerMoveTest extends BackgroundMap {
@@ -183,22 +221,22 @@ public class PlayerMoveTest extends BackgroundMap {
 				case KeyEvent.VK_UP:
 					player.up();
 					break;
-				case KeyEvent.VK_DOWN:
-					player.down();
-					break;
 				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				switch (e.getKeyCode()) {
-					case KeyEvent.VK_RIGHT:
-						// while문 동작 멈추기
-						player.right = false;
-						break;
-					case KeyEvent.VK_LEFT:
-						player.left = false;
-						break;
+				case KeyEvent.VK_RIGHT:
+					// while문 동작 멈추기
+					player.right = false;
+					break;
+				case KeyEvent.VK_LEFT:
+					player.left = false;
+					break;
+//				case KeyEvent.VK_UP:
+//					player.up = false;
+//					break;
 				}
 			}
 		});
