@@ -13,11 +13,16 @@ public class FrontMap extends JPanel {
 
 	public FrontMap() {
 		initObject();
+		initSetting();
 	}
 
 	private void initObject() {
 		bgIcon = new ImageIcon("image/backgroundMap.png");
 		bgImg = bgIcon.getImage();
+	}
+	
+	private void initSetting() {
+		setLayout(null);
 	}
 
 	@Override
