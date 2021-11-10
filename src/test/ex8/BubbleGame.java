@@ -3,7 +3,9 @@ package test.ex8;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * 
@@ -13,19 +15,26 @@ import javax.swing.JFrame;
 
 public class BubbleGame extends JFrame {
 
-	private FrontMap frontMap;
+	private JLabel frontMap;
+	private BackgroundService backgroundService;
 	private Player player;
 
 	public BubbleGame() {
 		initObject();
 		initSetting();
 		initListener();
+		initThread();
 		setVisible(true);
+	}
+	
+	private void initThread() {
+		new Thread(backgroundService).start();
 	}
 
 	private void initObject() {
-		frontMap = new FrontMap();
-		player = new Player(frontMap);
+		player = new Player();
+		backgroundService = new BackgroundService(player);
+		frontMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
 	}
 
 	private void initSetting() {
