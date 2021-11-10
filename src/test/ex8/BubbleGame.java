@@ -34,6 +34,7 @@ public class BubbleGame extends JFrame {
 		player = new Player();
 		backgroundService = new BackgroundService(player);
 		frontMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+		new BGM();
 	}
 
 	private void initSetting() {

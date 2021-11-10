@@ -50,17 +50,17 @@ public class BackgroundService implements Runnable {
 					player.setDown(false);
 				} else {
 					if (!player.isUp()) {
-						System.out.println("바텀에 아무것도 없어");
+						//System.out.println("바텀에 아무것도 없어");
 						player.down();
 					}
 				}
 
 				if (leftColor != -1) {
-					// System.out.println("왼쪽벽에 먼가 있어");
+					//System.out.println("왼쪽벽에 먼가 있어");
 					player.setLeft(false);
 					player.setLeftCrash(true);
 				} else if (rightColor != -1) {
-					// System.out.println("오른쪽벽에 먼가 있어");
+					//System.out.println("오른쪽벽에 먼가 있어");
 					player.setRight(false);
 					player.setRightCrash(true);
 				} else {
