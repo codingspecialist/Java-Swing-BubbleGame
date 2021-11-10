@@ -8,10 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- * 
  * @author 겟인데어
  * FrontMap과 BackMap 테스트
- */
+ **/
 
 public class BubbleGame extends JFrame {
 
@@ -48,18 +47,21 @@ public class BubbleGame extends JFrame {
 
 	private void initListener() {
 		addKeyListener(new KeyAdapter() {
-
+			
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {		
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
-					player.left();
+					if(!player.isLeft()) {
+						System.out.println("왼쪽으로 이동");
+						player.left();
+					}
 					break;
 				case KeyEvent.VK_RIGHT:
-					player.right();
+					if(!player.isRight()) player.right();
 					break;
 				case KeyEvent.VK_UP:
-					player.up();
+					if(!player.isUp()) player.up();
 					break;
 				}
 			}

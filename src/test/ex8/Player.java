@@ -21,16 +21,15 @@ public class Player extends JLabel implements Moveable {
 	private boolean right;
 	private boolean up;
 	private boolean down;
-
-	private int xLeftEnd = 75;
-	private int xRightEnd = 890;
+	
+	private boolean leftCrash;
+	private boolean rightCrash;
 
 	private final int SPEED = 3;
 	private final int JUMPSPEED = 1;
 
 	private ImageIcon playerR;
 	private ImageIcon playerL;
-
 
 	public Player() {
 		initObject();
@@ -46,12 +45,15 @@ public class Player extends JLabel implements Moveable {
 		x = 55;
 		y = 535;
 
-		direction = Direction.RIGHT; 
+		direction = Direction.RIGHT;
 
 		left = false;
 		right = false;
 		up = false;
 		down = false;
+		
+		leftCrash = false;
+		rightCrash = false;
 
 		setIcon(playerR);
 		setSize(50, 50);
@@ -64,7 +66,7 @@ public class Player extends JLabel implements Moveable {
 			up = true;
 			new Thread(() -> {
 
-				for (int i = 0; i < 120; i++) {
+				for (int i = 0; i < 130; i++) {
 					y = y - (JUMPSPEED);
 					setLocation(x, y);
 					try {
@@ -72,8 +74,8 @@ public class Player extends JLabel implements Moveable {
 					} catch (Exception e) {
 						System.out.println("위쪽 이동중 인터럽트 발생 : " + e.getMessage());
 					}
-
 				}
+				
 				up = false;
 				down();
 			}).start();
@@ -90,7 +92,7 @@ public class Player extends JLabel implements Moveable {
 					y = y + (JUMPSPEED);
 					setLocation(x, y);
 					try {
-						Thread.sleep(5);
+						Thread.sleep(3);
 					} catch (Exception e) {
 						System.out.println("아래쪽 이동중 인터럽트 발생 : " + e.getMessage());
 					}
@@ -102,49 +104,44 @@ public class Player extends JLabel implements Moveable {
 
 	@Override
 	public void left() {
-		if (left == false) {
-			left = true;
-			direction = Direction.LEFT;
-			setIcon(playerL);
+		left = leftCrash ? false : true;
+		direction = Direction.LEFT;
+		setIcon(playerL);
 
-			new Thread(() -> {
-				while (left) {
-					x = x - SPEED;
-					setLocation(x, y);
+		new Thread(() -> {
+			while (left) {
+				x = x - SPEED;
+				setLocation(x, y);
 
-					try {
-						Thread.sleep(10);
-					} catch (Exception e) {
-						System.out.println("왼쪽 이동중 인터럽트 발생 : " + e.getMessage());
-					}
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {
+					System.out.println("왼쪽 이동중 인터럽트 발생 : " + e.getMessage());
 				}
-			}).start();
-		}
+			}
+		}).start();
+
 	}
 
 	@Override
 	public void right() {
-		if (right == false) {
-			right = true;
-			direction = Direction.RIGHT;
-			setIcon(playerR);
+		right = rightCrash ? false : true;
+		direction = Direction.RIGHT;
+		setIcon(playerR);
 
-			new Thread(() -> {
-				while (right) {
+		new Thread(() -> {
+			while (right) {
+				x = x + SPEED;
+				setLocation(x, y);
 
-					x = x + SPEED;
-					setLocation(x, y);
-
-					try {
-						Thread.sleep(10);
-					} catch (Exception e) {
-						System.out.println("오른쪽 이동중 인터럽트 발생 : " + e.getMessage());
-					}
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {
+					System.out.println("오른쪽 이동중 인터럽트 발생 : " + e.getMessage());
 				}
-			}).start();
+			}
+		}).start();
 
-		}
 	}
-
 
 }
