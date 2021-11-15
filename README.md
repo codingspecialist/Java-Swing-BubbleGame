@@ -22,3 +22,4 @@
 - (14) 버블 방울 슈팅 - 버블 자체 스레드로 해결 - 끝 - ex11
 - (15) Code Refectoring and Map update and Color Object use - ex12
 - (16) 적군 움직임 처리 완료 - ex13
+- (17) 적군 물방울 공격 완료 - ex14 (코드 리팩토링 필요함 - 더러움)
